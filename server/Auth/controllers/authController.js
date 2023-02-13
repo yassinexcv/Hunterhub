@@ -67,6 +67,8 @@ const login = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       role: user.role,
+      ville: user.ville,
+      // region: user.region,
       token: generateToken(user._id),
     });
   } else {
