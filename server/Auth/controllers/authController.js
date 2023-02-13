@@ -8,8 +8,8 @@ const bcrypt = require("bcryptjs");
 // @route   POST /user/register
 // @access  Public
 const register = asyncHandler(async (req, res) => {
-  const { nom, prenom, email, password, role } = req.body;
-  if( nom === "" || prenom === "" || email === "" || password === ""  ){
+  const { nom, prenom, email, password, role , ville, region} = req.body;
+  if( nom === "" || prenom === "" || email === "" || password === "" || ville === "" || region === "" ){
     res.status(400);
     throw new Error("Veuillez remplir tous les champs");
   }
@@ -28,6 +28,9 @@ const register = asyncHandler(async (req, res) => {
     prenom,
     email,
     password: hashedPassword,
+    role,
+    ville,
+    region,
     
   });
   if (user) {
@@ -37,6 +40,8 @@ const register = asyncHandler(async (req, res) => {
       prenom: user.prenom,
       email: user.email,
       role: user.role,
+      ville: user.ville,
+      region: user.region,
       token: generateToken(user._id),
     });
   } else {
