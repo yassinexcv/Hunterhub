@@ -3,7 +3,6 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
-import Trotinette from '../pages/Trotinette';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 
@@ -40,7 +39,6 @@ const Tabs = () => {
       {admin ? (
         <>
           <Tab.Screen name="Register" component={Register} />
-          {/* <Tab.Screen name="Dashboard" component={Dashboard} options={{headerShown : false }} /> */}
         </>
       ) : null}
     </Tab.Navigator>
