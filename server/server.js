@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
 app.use("/auth", require("./Auth/routes/authRoute"));
+app.use("/spot", require("./SpotDePeche/routes/SpotRout"));
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
