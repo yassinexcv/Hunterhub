@@ -39,11 +39,11 @@ const RegisterScreen = () => {
     };
 
     return (
-        <ImageBackground source={require('../assets/bg.png')} style={styles.container} resizeMode='cover'  >
+        <ImageBackground source={require('../assets/register.png')} style={styles.container} resizeMode='cover'  >
             <View style={styles.container}>
                 <Image
                     style={styles.logo}
-                    source={require('../assets/bg.png')}
+                    source={require('../assets/logo.png')}
                 />
                 <TextInput
                     style={styles.input}

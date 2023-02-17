@@ -25,7 +25,7 @@ const DashboardScreen = () => {
   }, []);
 
   return (
-    <ImageBackground source={require('../assets/bg.png')} style={styles.BgImage} resizeMode='cover'  >
+    <ImageBackground source={require('../assets/bgImage.svg')} style={styles.BgImage} resizeMode='cover'  >
   <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Dashboard</Text>

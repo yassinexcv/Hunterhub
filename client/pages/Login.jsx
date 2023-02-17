@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image , ImageBackground} from 'react-native';
-
 import { useNavigation } from '@react-navigation/native';
+// import SvgUri from 'react-native-svg-uri';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -31,11 +31,11 @@ const LoginScreen = () => {
 
 
   return (
-    <ImageBackground source={require('../assets/bg.png')} style={styles.container} resizeMode='cover'  >
+    <ImageBackground source={require('../assets/bgImage.png')} style={styles.container} resizeMode='cover'  >
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source={require('../assets/bg.png')}
+        source={require('../assets/logo.png')}
       />
       <TextInput
         style={styles.input}
