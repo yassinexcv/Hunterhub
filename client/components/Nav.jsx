@@ -3,13 +3,31 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
+// import About from '../pages/About';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
-const Tabs = () => {
-  const [admin, setAdmin] = useState(true);
+
+const Nav = () => {
+  const [isLoggedIn, setIsLogged] = useState(false);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    function checkIfLoggedIn() {
+      AsyncStorage.getItem('token').then((value) => {
+        if (value !== null) {
+          setIsLogged(true);
+        } else {
+          setIsLogged(false);
+        }
+      });
+    }
+    checkIfLoggedIn();
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -23,28 +41,30 @@ const Tabs = () => {
             iconName = focused ? 'person-add' : 'person-add-outline';
           } else if (route.name === 'Dashboard') {
             iconName = focused ? 'list' : 'list-outline';
-          } else if (route.name === 'Trotinette') {
-            iconName = focused ? 'list' : 'list-outline';
+          } else if (route.name === 'About') {
+            iconName = focused ? 'ios-happy' : 'ios-happy-outline';
           }
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
       })}
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-      }}
     >
-      <Tab.Screen name="Home" component={Home} options={{headerShown : false }}/>
-      <Tab.Screen name="Login" component={Login} />
-      {admin ? (
+      {isLoggedIn ? (
         <>
-          <Tab.Screen name="Register" component={Register} />
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Dashboard" component={Dashboard} />
         </>
-      ) : null}
+      ) : (
+        <>
+          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Register" component={Register} />
+          {/* <Tab.Screen name="About" component={About} /> */}
+        </>
+      )}
     </Tab.Navigator>
   );
 };
 
-
-export default Tabs;
-
+export default Nav;

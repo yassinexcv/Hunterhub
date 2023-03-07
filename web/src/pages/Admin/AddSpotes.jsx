@@ -1,0 +1,173 @@
+import React from "react";
+import { useEffect , useState } from "react";
+
+
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
+
+const AddSpotes = () => {
+    const [nom, setNom] = useState("");
+    const [description, setDescription] = useState("");
+    const [ville, setVille] = useState("");
+    const [region, setRegion] = useState("");
+    const [longitude, setLongitude] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [error, setError] = useState("");
+    const [isPending, setIsPending] = useState(false);
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const spot = { nom, description, ville, region, longitude, latitude };
+  
+      setIsPending(true);
+  
+      fetch("http://localhost:5000/spot/addSpot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(spot),
+      }).then(() => {
+        toast.success("new spot added");
+        setIsPending(false);
+      });
+    };
+  
+    return (
+      <div className="container mx-auto my-8 px-4">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+          <div className="md:flex">
+            <div className="md:flex-shrink-0">
+              <img
+                className="h-48 w-full object-cover md:w-48"
+                src="https://source.unsplash.com/featured/400x400/?beach"
+                alt="Beach"
+              />
+            </div>
+            <div className="p-8">
+              <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                Add a New Spot
+              </div>
+              <form onSubmit={handleSubmit} className="mt-6">
+                <div>
+                  <label htmlFor="spot-name" className="block text-sm font-medium text-gray-700">
+                    Spot name:
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      name="spot-name"
+                      id="spot-name"
+                      autoComplete="off"
+                      required
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                      value={nom}
+                      onChange={(e) => setNom(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <label
+                    htmlFor="spot-description"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Spot description:
+                  </label>
+                  <div className="mt-1">
+                    <textarea
+                      id="spot-description"
+                      name="spot-description"
+                      rows="3"
+                      required
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <label htmlFor="spot-city" className="block text-sm font-medium text-gray-700">
+                        Spot city:
+                    </label>
+                    <div className="mt-1">
+                        <input
+                        type="text"
+                        name="spot-city"
+                        id="spot-city"
+                        autoComplete="off"
+                        required
+                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        value={ville}
+                        onChange={(e) => setVille(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <label htmlFor="spot-region" className="block text-sm font-medium text-gray-700">
+                        Spot region:
+                    </label>
+                    <div className="mt-1">
+                        <input
+                        type="text"
+                        name="spot-region"
+                        id="spot-region"
+                        autoComplete="off"
+                        required
+                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        value={region}
+                        onChange={(e) => setRegion(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <label htmlFor="spot-longitude" className="block text-sm font-medium text-gray-700">
+                        Spot longitude:
+                    </label>
+                    <div className="mt-1">
+                        <input
+                        type="text"
+                        name="spot-longitude"
+                        id="spot-longitude"
+                        autoComplete="off"
+                        required
+                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        value={longitude}
+                        onChange={(e) => setLongitude(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <label htmlFor="spot-latitude" className="block text-sm font-medium text-gray-700">
+                        Spot latitude:
+                    </label>
+                    <div className="mt-1">
+                        <input
+                        type="text"
+                        name="spot-latitude"
+                        id="spot-latitude"
+                        autoComplete="off"
+                        required
+                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        value={latitude}
+                        onChange={(e) => setLatitude(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="mt-6">
+                    {!isPending && <button type="submit" className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Add Spot
+                    </button>}
+                    {isPending && <button type="submit" className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled>
+                        Adding Spot...
+                    </button>}
+                    <div className="alert alert-danger">{error}</div>
+
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    );
+    };
+
+export default AddSpotes;

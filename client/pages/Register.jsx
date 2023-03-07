@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground , } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground , Keyboard } from 'react-native';
 // import {fetch} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,6 +9,9 @@ const RegisterScreen = () => {
     const [prenom, setPrenom] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [region, setRegion] = useState('');
+    const [ville, setVille] = useState('');
+
 
     const handleRegister = async () => {
         try {
@@ -23,7 +26,10 @@ const RegisterScreen = () => {
                     nom,
                     prenom,
                     email,
-                    password
+                    password,
+                    region,
+                    ville,
+                    
                 })
             });
             const data = await res.json();
@@ -43,33 +49,63 @@ const RegisterScreen = () => {
             <View style={styles.container}>
                 <Image
                     style={styles.logo}
-                    source={require('../assets/logo.png')}
+                    source={require('../assets/link.png')}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Username"
                     value={nom}
                     onChangeText={setNom}
+                    keyboardType="username"
+                    returnKeyType="next"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Prenom"
                     value={prenom}
                     onChangeText={setPrenom}
+                    keyboardType="prenom"
+                    returnKeyType="next"
+
+                />
+              
+                <TextInput
+                    style={styles.input}
+                    placeholder="Region"
+                    value={region}
+                    onChangeText={setRegion}
+                    keyboardType="region"
+                    returnKeyType="next"
+                    
                 />
                 <TextInput
+                    style={styles.input}
+                    placeholder="Ville"
+                    value={ville}
+                    onChangeText={setVille}
+                    keyboardType="ville"
+                    returnKeyType="next"
+                />
+                  <TextInput
                     style={styles.input}
                     placeholder="email"
                     value={email}
                     onChangeText={setEmail}
+                    keyboardType="email-address"
+                    returnKeyType="next"
+
                 />
-                <TextInput
+                 <TextInput
                     style={styles.input}
                     placeholder=" Password"
                     secureTextEntry={true}
                     value={password}
                     onChangeText={setPassword}
+                    returnKeyType="done"
+                    onSubmitEditing={() => { Keyboard.dismiss(); }}
+
                 />
+
                 <TouchableOpacity style={styles.button} onPress={handleRegister}>
                     <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
@@ -91,8 +127,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
     },
     logo: {
-    width: 140,
-    height: 100,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginBottom: 20,
     },
@@ -106,6 +142,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20, // augmenter la taille de la police
     fontWeight: 'bold',
+    color: 'black', // changement de couleur à noir
     },
     button: {
     width: '100%',
