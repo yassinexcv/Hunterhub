@@ -1,4 +1,4 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -19,6 +19,7 @@ const Nav = () => {
     function checkIfLoggedIn() {
       AsyncStorage.getItem('token').then((value) => {
         if (value !== null) {
+          console.log('token', "I m here")
           setIsLogged(true);
         } else {
           setIsLogged(false);
@@ -51,18 +52,21 @@ const Nav = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      {isLoggedIn ? (
-        <>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Dashboard" component={Dashboard} />
-        </>
-      ) : (
-        <>
-          <Tab.Screen name="Login" component={Login} />
-          <Tab.Screen name="Register" component={Register} />
-          {/* <Tab.Screen name="About" component={About} /> */}
-        </>
-      )}
+      {
+          isLoggedIn ? (
+            <>
+              <Tab.Screen name="Home" component={Home} />
+              <Tab.Screen name="Dashboard" component={Dashboard} />
+            </>
+          ) : (
+            <>
+              <Tab.Screen name="Login" component={Login} />
+              <Tab.Screen name="Register" component={Register} />
+           
+            </>
+          )
+      }
+
     </Tab.Navigator>
   );
 };

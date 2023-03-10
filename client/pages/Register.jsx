@@ -49,7 +49,7 @@ const RegisterScreen = () => {
             <View style={styles.container}>
                 <Image
                     style={styles.logo}
-                    source={require('../assets/link.png')}
+                    source={require('../assets/link2.png')}
                 />
                 <TextInput
                     style={styles.input}

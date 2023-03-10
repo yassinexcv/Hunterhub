@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native';
 import Nav from './components/Nav';
 import About from './pages/About'
 import Home from './pages/Home';
+import Login from './pages/Login';
 
 const Stack = createStackNavigator();
 
@@ -21,15 +22,37 @@ export default function App() {
 
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
+
         <Stack.Navigator>   
           
-          
+        <Stack.Screen
+          name="About"
+          component={About}
+          options={{
+            headerShown: false
+          }}/>
+
           <Stack.Screen
           name="Nav"
           component={Nav}
           options={{
             headerShown: false
           }}/>
+
+          <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false
+          }}/>
+
+          {/* <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false
+          }}/> */}
+
         </Stack.Navigator>
        
 

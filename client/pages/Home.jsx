@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-
+import Nav from '../components/Nav';
 const Home= () => {
   const [markers, setMarkers] = useState([]);
 
@@ -17,6 +17,41 @@ const Home= () => {
    
   }, []);
 
+  return (
+    <>
+   
+   
+      <MapView
+          style={{ flex: 1, width: '100%', height: '100%' }}
+          initialRegion={{
+            latitude: 34.05,
+            longitude: -6.75,
+            latitudeDelta: 1,
+            longitudeDelta: 1,
+          }}
+      > 
+  
+        {markers.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+            title={marker.nom}
+            description={marker.description}
+            image={require('../assets/marker.png')}
+          />
+        ))}
+  
+  
+      </MapView>
+       
+     
+    
+
+      </>
+     
+      
+    );
+
   // const markers = [
     // {
     //   nom: 'Lagune Sidi Boughaba',
@@ -28,7 +63,7 @@ const Home= () => {
   //     nom: 'Baie de Dakhla',
   //     description: 'Située sur la côte sud-ouest du Maroc, la baie de Dakhla est une importante région de pêche pour les espèces de poissons telles que les crevettes, les calamars et les sardines.',
   //     latitude: 23.7142,
-  //     longitude: -15.9333,
+  //     longitude: 23.7142,
   //   },
   //   {
   //     nom: 'Port de Safi',
@@ -69,12 +104,12 @@ const Home= () => {
   //     longitude: -8.9090,
 
   //   },
-  //   {
-  //     nom: 'Baie d\'Essaouira',
-  //     description: 'Située sur la côte ouest du Maroc, la baie d\'Essaouira est une importante région de pêche pour les espèces de poissons telles que les sardines, les anchois et les maquereaux.',
-  //     latitude: 31.5103,
-  //     longitude: -9.7593,
-  //   },
+    // {
+    //   nom: 'Baie d\'Essaouira',
+    //   description: 'Située sur la côte ouest du Maroc, la baie d\'Essaouira est une importante région de pêche pour les espèces de poissons telles que les sardines, les anchois et les maquereaux.',
+    //   latitude: 31.5103,
+    //   longitude: -9.7593,
+    // },
   //   {
   //     nom: 'Port de Casablanca',
   //     description: 'Situé sur la côte ouest du Maroc, le port de Casablanca est une importante région de pêche pour les espèces de poissons telles que les sardines, les merlans et les dorades.',
@@ -128,28 +163,16 @@ const Home= () => {
   // ];
   
 
-  return (
-    <MapView
-  style={{ flex: 1, width: '100%', height: '100%' }}
-  initialRegion={{
-    latitude: 34.05,
-    longitude: -6.75,
-    latitudeDelta: 1,
-    longitudeDelta: 1,
-  }}
->
 
-      {markers.map((marker, index) => (
-        <Marker
-          key={index}
-          coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-          title={marker.nom}
-          description={marker.description}
-          image={require('../assets/marker.png')}
-        />
-      ))}
-    </MapView>
-  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Home;

@@ -45,7 +45,8 @@ const LoginScreen = (props) => {
       }
       else {
         await AsyncStorage.setItem('token', data.token);
-        navigation.navigate('Home');
+        // donne accès à la page Home avec une autre façon de faire
+        props.navigation.navigate('Home');
       }
     } catch (err) {
       console.log(err);
@@ -70,7 +71,7 @@ const LoginScreen = (props) => {
 
         <Image
           style={styles.logo}
-          source={require('../assets/link.png')}
+          source={require('../assets/link2.png')}
         />
         <TextInput
           style={styles.input}

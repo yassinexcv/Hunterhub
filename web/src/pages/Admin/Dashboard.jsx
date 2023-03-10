@@ -1,31 +1,61 @@
 
 import React from 'react'
-import { useEffect , useState } from 'react';
+import { useEffect, useState } from 'react';
 import m from '../../assets/link2.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Dashboard() {
- 
+
   const [spots, setSpots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5000/spot/getSpots')
-
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setSpots(data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setError(error);
         setLoading(false);
       });
   }, []);
+
+  const removeSpot = (id) => {
+    fetch(`http://localhost:5000/spot/deleteSpot/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setSpots(spots.filter(spot => spot._id !== id));
+        toast.success('Spot deleted successfully');
+
+      })
+      .catch(error => console.error(error));
+  }
+
+
+  const Lougout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+
+  }
+
+  
+
+
+
 
 
 
@@ -54,7 +84,7 @@ export default function Dashboard() {
               </a>
             </li>
             <li>
-              <a href="#" className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+              <a href="/addSpotes" className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path className="fill-current text-gray-600 group-hover:text-cyan-600" d="M14.613,10c0,0.23-0.188,0.419-0.419,0.419H10.42v3.774c0,0.23-0.189,0.42-0.42,0.42s-0.419-0.189-0.419-0.42v-3.774H5.806c-0.23,0-0.419-0.189-0.419-0.419s0.189-0.419,0.419-0.419h3.775V5.806c0-0.23,0.189-0.419,0.419-0.419s0.42,0.189,0.42,0.419v3.775h3.774C14.425,9.581,14.613,9.77,14.613,10 M17.969,10c0,4.401-3.567,7.969-7.969,7.969c-4.402,0-7.969-3.567-7.969-7.969c0-4.402,3.567-7.969,7.969-7.969C14.401,2.031,17.969,5.598,17.969,10 M17.13,10c0-3.932-3.198-7.13-7.13-7.13S2.87,6.068,2.87,10c0,3.933,3.198,7.13,7.13,7.13S17.13,13.933,17.13,10" />
                 </svg>
@@ -65,7 +95,7 @@ export default function Dashboard() {
           </ul>
         </div>
         <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
-          <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+          <button onClick={Lougout }  className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
@@ -119,6 +149,7 @@ export default function Dashboard() {
               <table class="min-w-full table-auto">
                 <thead>
                   <tr class="bg-gray-200 uppercase text-xs font-bold text-gray-600">
+                    {/* <th class="py-3 px-4 border-b border-gray-300">ID</th> */}
                     <th class="py-3 px-4 border-b border-gray-300">Name</th>
                     <th class="py-3 px-4 border-b border-gray-300">Description</th>
                     <th class="py-3 px-4 border-b border-gray-300">Region</th>
@@ -132,6 +163,7 @@ export default function Dashboard() {
                 <tbody>
                   {spots.map((spot, index) => (
                     <tr key={index} class="hover:bg-gray-100">
+                      {/* <td class="py-3 px-4 border-b border-gray-300">{spot._id}</td> */}
                       <td class="py-3 px-4 border-b border-gray-300">{spot.nom}</td>
                       <td class="py-3 px-4 border-b border-gray-300">{spot.description}</td>
                       <td class="py-3 px-4 border-b border-gray-300">{spot.region}</td>
@@ -145,10 +177,16 @@ export default function Dashboard() {
                         </button>
                       </td>
                       <td class="py-3 px-4 border-b border-gray-300">
-                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+
+                        {/* <button onClick={() => removeSpot(spot._id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button> */}
+                        <button onClick={() => removeSpot(spot._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                           <FontAwesomeIcon icon={faTrash} className="mr-2" />
                           Supprimer
                         </button>
+
+
                       </td>
                     </tr>
                   ))}
