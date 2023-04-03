@@ -1,34 +1,54 @@
 const Spot = require("../models/SpotModel");
 const asyncHandler = require("express-async-handler");
 
+
+
+
 // @desc    add a new spot
 // @route   POST /api/spot/add
-// @access  Public
+// // @access  Public
+
 const addSpot = asyncHandler(async (req, res) => {
-    const { nom, description, region, ville, longitude, latitude } = req.body;
+    const { nom, description, region, ville, longitude, latitude , image} = req.body;
+
+    if (!req.file) {
+        res.status(400);
+        throw new Error("No file uploaded");
+    }
+
+    const {file} = req;
     const spot = await Spot.create({
+    
         nom,
         description,
         region,
         ville,
         longitude,
         latitude,
+        image: file.path || null,
     });
+ 
     if (spot) {
         res.status(201).json({
-        _id: spot._id,
-        nom: spot.nom,
-        description: spot.description,
-        region: spot.region,
-        ville: spot.ville,
-        longitude: spot.longitude,
-        latitude: spot.latitude,
+            _id: spot._id,
+            nom: spot.nom,
+            description: spot.description,
+            region: spot.region,
+            ville: spot.ville,
+            longitude: spot.longitude,
+            latitude: spot.latitude,
+            image: spot.image,
         });
     } else {
         res.status(400);
         throw new Error("Invalid spot data");
     }
-    });
+});
+
+
+
+
+
 
 // @desc    Get all spots
 // @route   GET /api/spot

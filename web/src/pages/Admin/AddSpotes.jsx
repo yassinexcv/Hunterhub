@@ -11,17 +11,24 @@ const AddSpotes = () => {
   const [latitude, setLatitude] = useState("");
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const [file, setFile] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const spot = { nom, description, ville, region, longitude, latitude };
+    const data = new FormData();
+    data.append("nom", nom);
+    data.append("description", description);
+    data.append("ville", ville);
+    data.append("region", region);
+    data.append("longitude", longitude);
+    data.append("latitude", latitude);
+    data.append("file", file);
 
     setIsPending(true);
 
-    fetch("http://localhost:5000/spot/addSpot", {
+    fetch("http://localhost:5000/spot/add", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(spot),
+      body: data,
     })
       .then(() => {
         toast.success("new spot added");
@@ -44,7 +51,7 @@ const AddSpotes = () => {
             <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
               Add a New Spot
             </div>
-            <form onSubmit={handleSubmit} className="mt-6">
+            <form onSubmit={handleSubmit} className="mt-6" encType="multipart/form-data" method="POST">
               <div>
                 <label htmlFor="spot-name" className="block text-sm font-medium text-gray-700">
                   Spot name:
@@ -152,6 +159,21 @@ const AddSpotes = () => {
                   />
                 </div>
               </div>
+              <div className="mt-6">
+                <label htmlFor="spot-image" className="block text-sm font-medium text-gray-700">
+                  Spot image:
+                </label>
+                <div className="mt-1">
+                  <input
+                    type="file"
+                    name="spot-image"
+                    id="spot-image"
+                    required
+                    className="shadow-sm focus:ring focus:border-blue-300 block w-full sm:text-sm border-gray-300 rounded-md"
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </div>
+              </div>
               {!isPending && <button className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Spot</button>}
               {isPending && <button className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>Adding Spot...</button>}
             </form>
@@ -163,4 +185,4 @@ const AddSpotes = () => {
 };
 
 export default AddSpotes;
-                
+

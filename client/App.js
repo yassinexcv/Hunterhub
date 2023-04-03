@@ -10,6 +10,7 @@ import Nav from './components/Nav';
 import About from './pages/About'
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,14 @@ export default function App() {
           options={{
             headerShown: false
           }}/> */}
+
+          <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
+          options={{
+            headerShown: false
+          }}/>
+          
 
         </Stack.Navigator>
        
