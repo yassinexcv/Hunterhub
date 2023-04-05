@@ -28,7 +28,16 @@ const DashboardScreen = () => {
     const response = await fetch('http://192.168.10.37:5000/spot/getSpots');
     const data = await response.json();
     setSpots(data);
+    // console.log(data[12].image);
+
+    
   };
+
+  const image = (string)=> {
+    let str = string;
+    return str.replace(/\\/g, "/");
+
+  }
 
   useEffect(() => {
     getSpots();
@@ -50,7 +59,8 @@ const DashboardScreen = () => {
   const renderSpotItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('SpotDetails', { spot: item })}>
       <Card containerStyle={styles.card}>
-        <Image style={styles.cardImage} source={{ uri: item.image }} />
+      <Image style={styles.cardImage} source={{ uri: `http://192.168.10.37:5000/`+ image(item.image) }} />
+
         <View style={styles.cardContent}>
           <Text style={styles.cardTitle}>{item.nom}</Text>
           <Text style={styles.cardText}>{item.description}</Text>

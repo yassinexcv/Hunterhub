@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import Nav from '../components/Nav';
+// import Nav from '../components/Nav';
 const Home= () => {
   const [markers, setMarkers] = useState([]);
 

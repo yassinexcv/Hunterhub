@@ -28,6 +28,7 @@ const SpotSchema = mongoose.Schema(
       },
       image: {
         type: String,
+        // required: [true, "S'il vous plaît entrez le lien de l'image du spot"],
        
       },
     },

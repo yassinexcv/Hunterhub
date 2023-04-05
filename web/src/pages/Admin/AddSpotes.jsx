@@ -23,7 +23,6 @@ const AddSpotes = () => {
     data.append("longitude", longitude);
     data.append("latitude", latitude);
     data.append("file", file);
-
     setIsPending(true);
 
     fetch("http://localhost:5000/spot/add", {
@@ -185,4 +184,3 @@ const AddSpotes = () => {
 };
 
 export default AddSpotes;
-

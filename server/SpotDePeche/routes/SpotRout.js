@@ -17,15 +17,19 @@ const storage = multer.diskStorage({
 
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop()) // generate unique file name
+        // cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop()) // generate unique file name
+        const fileName =  file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop();// generate unique file name
 
+        const filePath = fileName.replace(/\\/g, ""); // enlever le backslash dans le nom de fichier
+
+        cb(null, filePath);
     }
 
 });
 
 const upload = multer({ storage: storage }).single('file');
 
-router.route("/add").post(upload, addSpot);
+router.route("/add").post( upload ,  addSpot);
 router.route("/getSpots").get(getSpots);
 router.route("/getSpotById/:id").get(getSpotById);
 router.route("/updateSpot/:id").put(updateSpot);

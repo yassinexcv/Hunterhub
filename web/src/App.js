@@ -24,7 +24,7 @@ function App() {
               <Route path="/addSpotes" element={<AddSpotes />} />
             </>
           )}
-          <Route path="*" element={<E404 />} />
+          {/* <Route path="*" element={<E404 />} /> */}
         </Routes>
         <ToastContainer />
       </Router>
