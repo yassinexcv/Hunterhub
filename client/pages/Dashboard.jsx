@@ -4,12 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 import { Card, Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+// import SpotDetails from './SpotDetails';
 
 const DashboardScreen = () => {
   const navigation = useNavigation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [spots, setSpots] = useState([]);
   const [search, setSearch] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   const handleLogout = async () => {
     try {
@@ -23,6 +26,13 @@ const DashboardScreen = () => {
       console.log('Error during logout:', e);
     }
   };
+
+  const handleSpotPress = (spot) => {
+    navigation.navigate('SpotDetails', { spot: spot });
+    setModalVisible(true);
+  };
+  
+
 
   const getSpots = async () => {
     const response = await fetch('http://192.168.10.37:5000/spot/getSpots');
@@ -57,20 +67,22 @@ const DashboardScreen = () => {
   const filteredSpots = filterSpots(spots, search);
 
   const renderSpotItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('SpotDetails', { spot: item })}>
-      <Card containerStyle={styles.card}>
+    <TouchableOpacity onPress={() => handleSpotPress(item)}>
+    <Card containerStyle={styles.card}>
       <Image style={styles.cardImage} source={{ uri: `http://192.168.10.37:5000/`+ image(item.image) }} />
+  
+      <View style={styles.cardContent}>
+        <Text style={styles.cardTitle}>{item.nom}</Text>
+        <Text style={styles.cardText}>{item.description}</Text>
+        <View style={styles.cardDetails}>
+          <Text style={styles.cardDetailText}>{item.region}</Text>
+          <Text style={styles.cardDetailText}>{item.ville}</Text>
 
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>{item.nom}</Text>
-          <Text style={styles.cardText}>{item.description}</Text>
-          <View style={styles.cardDetails}>
-            <Text style={styles.cardDetailText}>{item.region}</Text>
-            <Text style={styles.cardDetailText}>{item.ville}</Text>
-          </View>
         </View>
-      </Card>
-    </TouchableOpacity>
+      </View>
+    </Card>
+  </TouchableOpacity>
+  
   );
 
   return (
@@ -85,7 +97,7 @@ const DashboardScreen = () => {
           placeholderTextColor="#6b6b6b"
         />
         <TouchableOpacity>
-          <Ionicons name="ios-options-outline" size={30} color="#fff" />
+        
         </TouchableOpacity>
       </View>
       <FlatList
@@ -94,10 +106,14 @@ const DashboardScreen = () => {
         renderItem={renderSpotItem}
       />
       <Button title="Logout" buttonStyle={styles.logoutButton} onPress={handleLogout} />
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddSpot')}>
+      {/* <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddSpot')}>
         <Ionicons name="add" size={30} color="#fff" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      
+    
+
     </View>
+    
   );
 };
 
@@ -111,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f4511e',
+    backgroundColor: '#89C8F4',
   },
   logo: {
     width: 50,
@@ -156,7 +172,7 @@ const styles = StyleSheet.create({
     color: '#6b6b6b',
   },
   logoutButton: {
-    backgroundColor: '#f4511e',
+    backgroundColor: '#89C8F4',
     borderRadius: 20,
     margin: 20,
   },

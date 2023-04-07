@@ -17,10 +17,9 @@ const storage = multer.diskStorage({
 
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        // cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop()) // generate unique file name
         const fileName =  file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop();// generate unique file name
 
-        const filePath = fileName.replace(/\\/g, ""); // enlever le backslash dans le nom de fichier
+        const filePath = fileName.replace(/\\/g, "/"); // enlever le backslash dans le nom de fichier
 
         cb(null, filePath);
     }
@@ -29,11 +28,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('file');
 
-router.route("/add").post( upload ,  addSpot);
+const { protect, role } = require("../../middlewares/authMiddlewre");
+
+router.route("/add").post( upload , addSpot , role("admin") );
 router.route("/getSpots").get(getSpots);
 router.route("/getSpotById/:id").get(getSpotById);
 router.route("/updateSpot/:id").put(updateSpot);
-router.route("/deleteSpot/:id").delete(deleteSpot);
+router.route("/deleteSpot/:id").delete( deleteSpot , role("admin") );
 
 module.exports = router;
 

@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     },
     buttonText: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     fontSize: 18,
     },

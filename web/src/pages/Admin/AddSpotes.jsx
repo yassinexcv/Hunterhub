@@ -28,6 +28,7 @@ const AddSpotes = () => {
     fetch("http://localhost:5000/spot/add", {
       method: "POST",
       body: data,
+      
     })
       .then(() => {
         toast.success("new spot added");

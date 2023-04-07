@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [spots, setSpots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:5000/spot/getSpots')
@@ -40,11 +41,24 @@ export default function Dashboard() {
         console.log(data);
         setSpots(spots.filter(spot => spot._id !== id));
         toast.success('Spot deleted successfully');
-
       })
       .catch(error => console.error(error));
   }
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  }
+
+  // console.log(spots);
+
+  const filteredSpots = spots.filter((spot) => {
+    if (spot.nom) {
+      return spot.nom.toLowerCase().includes(searchQuery.toLowerCase());
+    }
+    return false;
+  });
+
+  console.log(filteredSpots);
 
   const Lougout = () => {
     localStorage.removeItem('token');
@@ -52,7 +66,7 @@ export default function Dashboard() {
 
   }
 
-  
+
 
 
 
@@ -95,7 +109,7 @@ export default function Dashboard() {
           </ul>
         </div>
         <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
-          <button onClick={Lougout }  className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+          <button onClick={Lougout} className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
@@ -116,12 +130,9 @@ export default function Dashboard() {
               {/*search bar */}
               <div hidden className="md:block">
                 <div className="relative flex items-center text-gray-400 focus-within:text-cyan-400">
-                  <span className="absolute left-4 h-6 flex items-center pr-3 border-r border-gray-300">
-                    <svg xmlns="http://ww50w3.org/2000/svg" className="w-4 fill-current" viewBox="0 0 35.997 36.004">
-                      <path id="Icon_awesome-search" data-name="search" d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z" />
-                    </svg>
-                  </span>
-                  <input type="search" name="leadingIcon" id="leadingIcon" placeholder="Search here" className="w-full pl-14 pr-4 py-2.5 rounded-xl text-sm text-gray-600 outline-none border border-gray-300 focus:border-cyan-300 transition" />
+                 
+                  <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search spots" className="block w-full px-4 py-2 mt-2 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent" />
+
                 </div>
               </div>
               {/*/search bar */}
@@ -160,8 +171,9 @@ export default function Dashboard() {
                     <th class="py-3 px-4 border-b border-gray-300">Supprimer</th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {spots.map((spot, index) => (
+                  {filteredSpots.map((spot, index) => (
                     <tr key={index} class="hover:bg-gray-100">
                       {/* <td class="py-3 px-4 border-b border-gray-300">{spot._id}</td> */}
                       <td class="py-3 px-4 border-b border-gray-300">{spot.nom}</td>
@@ -177,16 +189,10 @@ export default function Dashboard() {
                         </button>
                       </td>
                       <td class="py-3 px-4 border-b border-gray-300">
-
-                        {/* <button onClick={() => removeSpot(spot._id)}>
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button> */}
                         <button onClick={() => removeSpot(spot._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                           <FontAwesomeIcon icon={faTrash} className="mr-2" />
                           Supprimer
                         </button>
-
-
                       </td>
                     </tr>
                   ))}

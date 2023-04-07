@@ -11,6 +11,7 @@ import About from './pages/About'
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import SpotDetails from './pages/SpotDetails';
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,14 @@ export default function App() {
           options={{
             headerShown: false
           }}/>
+
+          <Stack.Screen
+          name="SpotDetails"
+          component={SpotDetails}
+          options={{
+            headerShown: false
+          }}/>
+          
           
 
         </Stack.Navigator>
