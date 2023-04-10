@@ -75,17 +75,25 @@ const getSpotById = asyncHandler(async (req, res) => {
 // @route   PUT /api/spot/:id
 // @access  Private
 const updateSpot = asyncHandler(async (req, res) => {
-    const { nom, description, region, ville, longitude, latitude } = req.body;
-    const spot = await Spot.findById(req.params.id);
+    const spotId = req.params.id;
+  
+    const spot = await Spot.findById(spotId);
+  
     if (spot) {
-        spot.nom = nom;
-        spot.description = description;
-        spot.region = region;
-        spot.ville = ville;
-        spot.longitude = longitude;
-        spot.latitude = latitude;
-        const updatedSpot = await spot.save();
-        res.json({
+      spot.nom = req.body.nom || spot.nom;
+      spot.description = req.body.description || spot.description;
+      spot.region = req.body.region || spot.region;
+      spot.ville = req.body.ville || spot.ville;
+      spot.longitude = req.body.longitude || spot.longitude;
+      spot.latitude = req.body.latitude || spot.latitude;
+  
+      if (req.file) {
+        spot.image = req.file.path || null;
+      }
+  
+      const updatedSpot = await spot.save();
+  
+      res.json({
         _id: updatedSpot._id,
         nom: updatedSpot.nom,
         description: updatedSpot.description,
@@ -93,12 +101,15 @@ const updateSpot = asyncHandler(async (req, res) => {
         ville: updatedSpot.ville,
         longitude: updatedSpot.longitude,
         latitude: updatedSpot.latitude,
-        });
+        image: updatedSpot.image,
+      });
     } else {
-        res.status(404);
-        throw new Error("Spot not found");
+      res.status(404);
+      throw new Error("Spot not found");
     }
-    });
+  });
+  
+
 
 // @desc    Delete a spot
 // @route   DELETE /api/spot/:id

@@ -1,12 +1,15 @@
 
 import React from 'react'
 import { useEffect, useState } from 'react';
+// import { Link } from 'react-router-dom';
 import m from '../../assets/link2.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Dashboard() {
 
@@ -48,6 +51,12 @@ export default function Dashboard() {
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   }
+  const navigation = useNavigate();
+
+  // const editSpot = (id) => {
+  //   navigation(`/update/${id}`);
+  // }
+
 
   // console.log(spots);
 
@@ -130,7 +139,7 @@ export default function Dashboard() {
               {/*search bar */}
               <div hidden className="md:block">
                 <div className="relative flex items-center text-gray-400 focus-within:text-cyan-400">
-                 
+
                   <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search spots" className="block w-full px-4 py-2 mt-2 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent" />
 
                 </div>
@@ -175,7 +184,6 @@ export default function Dashboard() {
                 <tbody>
                   {filteredSpots.map((spot, index) => (
                     <tr key={index} class="hover:bg-gray-100">
-                      {/* <td class="py-3 px-4 border-b border-gray-300">{spot._id}</td> */}
                       <td class="py-3 px-4 border-b border-gray-300">{spot.nom}</td>
                       <td class="py-3 px-4 border-b border-gray-300">{spot.description}</td>
                       <td class="py-3 px-4 border-b border-gray-300">{spot.region}</td>
@@ -183,10 +191,10 @@ export default function Dashboard() {
                       <td class="py-3 px-4 border-b border-gray-300">{spot.latitude}</td>
                       <td class="py-3 px-4 border-b border-gray-300">{spot.longitude}</td>
                       <td class="py-3 px-4 border-b border-gray-300">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href={`/update/${spot._id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                           <FontAwesomeIcon icon={faEdit} className="mr-2" />
                           Modifier
-                        </button>
+                        </a>
                       </td>
                       <td class="py-3 px-4 border-b border-gray-300">
                         <button onClick={() => removeSpot(spot._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
@@ -197,6 +205,7 @@ export default function Dashboard() {
                     </tr>
                   ))}
                 </tbody>
+
               </table>
 
             </div>

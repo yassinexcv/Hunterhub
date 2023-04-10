@@ -5,6 +5,7 @@ import Login from './pages/Auth/Login';
 import Dashboard from './pages/Admin/Dashboard';
 import Register from './pages/Auth/Register';
 import AddSpotes from './pages/Admin/AddSpotes';
+import Update from './pages/Admin/Update';
 import E404 from './pages/Admin/404';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +23,9 @@ function App() {
             <>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/addSpotes" element={<AddSpotes />} />
+              <Route path="/update/:id" element={<Update />} />
+
+
             </>
           )}
           <Route path="*" element={<E404 />} />
