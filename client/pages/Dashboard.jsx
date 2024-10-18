@@ -35,7 +35,7 @@ const DashboardScreen = () => {
 
 
   const getSpots = async () => {
-    const response = await fetch('http://192.168.10.37:5000/spot/getSpots');
+    const response = await fetch('http://192.168.10.37:8000/spot/getSpots');
     const data = await response.json();
     setSpots(data);
     // console.log(data[12].image);
@@ -69,7 +69,7 @@ const DashboardScreen = () => {
   const renderSpotItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleSpotPress(item)}>
     <Card containerStyle={styles.card}>
-      <Image style={styles.cardImage} source={{ uri: `http://192.168.10.37:5000/`+ image(item.image) }} />
+      <Image style={styles.cardImage} source={{ uri: `http://192.168.10.37:8000/`+ image(item.image) }} />
   
       <View style={styles.cardContent}>
         <Text style={styles.cardTitle}>{item.nom}</Text>

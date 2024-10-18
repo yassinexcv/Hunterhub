@@ -31,7 +31,7 @@ const LoginScreen = (props) => {
 
     
     try {
-      const response = await fetch('http://192.168.10.37:5000/auth/login', {
+      const response = await fetch('http://192.168.10.37:8000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

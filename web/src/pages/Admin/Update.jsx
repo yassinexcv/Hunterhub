@@ -16,7 +16,7 @@ function UpdateSpot(props) {
   
     useEffect(() => {
       const getSpot = async () => {
-        const response = await fetch(`http://localhost:5000/spot/getSpotById/${id}`);
+        const response = await fetch(`http://localhost:8000/spot/getSpotById/${id}`);
         const data = await response.json();
         setNom(data.nom);
         setDescription(data.description);
@@ -42,7 +42,7 @@ function UpdateSpot(props) {
       formData.append('latitude', latitude);
       formData.append('image', file);
   
-      const response = await fetch(`http://localhost:5000/spot/updateSpot/${id}`, {
+      const response = await fetch(`http://localhost:8000/spot/updateSpot/${id}`, {
         method: 'PUT',
         body: formData,
     

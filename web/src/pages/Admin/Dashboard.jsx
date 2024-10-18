@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/spot/getSpots')
+    fetch('http://localhost:8000/spot/getSpots')
       .then(response => response.json())
       .then(data => {
         setSpots(data);
@@ -32,7 +32,7 @@ export default function Dashboard() {
   }, []);
 
   const removeSpot = (id) => {
-    fetch(`http://localhost:5000/spot/deleteSpot/${id}`, {
+    fetch(`http://localhost:8000/spot/deleteSpot/${id}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',

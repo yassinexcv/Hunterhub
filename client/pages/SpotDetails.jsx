@@ -27,7 +27,7 @@ const SpotDetails = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: `http://192.168.10.37:5000/` + image(spot.image) }} />
+      <Image style={styles.image} source={{ uri: `http://192.168.10.37:8000/` + image(spot.image) }} />
       <View style={styles.content}>
         <Text style={styles.title}>{spot.nom}</Text>
         <Text style={styles.text}>{spot.description}</Text>

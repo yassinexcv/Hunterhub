@@ -25,7 +25,7 @@ const AddSpotes = () => {
     data.append("file", file);
     setIsPending(true);
 
-    fetch("http://localhost:5000/spot/add", {
+    fetch("http://localhost:8000/spot/add", {
       method: "POST",
       body: data,
       

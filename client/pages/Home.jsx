@@ -8,7 +8,7 @@ const Home= () => {
   useEffect(() => {
 
     const getMarkers = async () => {
-      const response = await fetch('http://192.168.10.37:5000/spot/getSpots/');
+      const response = await fetch('http://192.168.10.37:8000/spot/getSpots/');
       const data = await response.json();
       setMarkers(data);
     };
